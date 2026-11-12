@@ -5,6 +5,8 @@ import com.distrilink.notification.dto.NotificationResponse;
 import com.distrilink.notification.service.NotificationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +38,8 @@ public class NotificationController {
 
     @PostMapping
     @Operation(summary = "Crear una notificación")
+    @ApiResponse(responseCode = "201", description = "Notificación creada")
+    @ApiResponse(responseCode = "400", description = "Datos inválidos", content = @Content)
     public ResponseEntity<NotificationResponse> create(@Valid @RequestBody NotificationRequest request) {
         NotificationResponse created = service.create(request);
         return ResponseEntity.created(URI.create("/api/notifications/" + created.id())).body(created);
